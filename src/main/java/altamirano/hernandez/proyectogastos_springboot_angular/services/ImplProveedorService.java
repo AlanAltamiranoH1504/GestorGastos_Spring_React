@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ImplProveedorService implements IProveedorService {
@@ -25,12 +26,16 @@ public class ImplProveedorService implements IProveedorService {
     }
 
     @Override
-    public Proveedor findById(Long id) {
+    public Optional<Proveedor> findById(Long id) {
         try {
-            Proveedor proveedor = iProveedorRepository.findById(id).get();
-            return proveedor;
+            Optional<Proveedor> proveedor = iProveedorRepository.findById(id);
+            if (proveedor.isPresent()) {
+                 return proveedor;
+            } else {
+                return Optional.empty();
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al buscar proveedor con ID: " + id, e);
         }
     }
 

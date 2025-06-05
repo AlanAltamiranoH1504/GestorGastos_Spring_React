@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/proveedores")
@@ -31,9 +32,15 @@ public class ProveedorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
+        Map<String, Object> json = new HashMap<>();
         try {
-            Proveedor proveedor = implProveedorService.findById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(proveedor);
+            Optional<Proveedor> proveedor = implProveedorService.findById(id);
+            if (proveedor.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(proveedor.get());
+            }else {
+                json.put("msg", "El proveedor no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -69,10 +76,33 @@ public class ProveedorController {
                 });
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
             } else {
-                implProveedorService.save(proveedor);
+                Optional<Proveedor> proveedorUpdate = implProveedorService.findById(id);
+                if (!proveedorUpdate.isPresent()) {
+                    json.put("msg", "Proveedor no encontrado");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+                }
+                proveedorUpdate.get().setNombre(proveedor.getNombre());
+                implProveedorService.save(proveedorUpdate.get());
                 json.put("msg", "Proveedor actualizado con exito");
                 return ResponseEntity.status(HttpStatus.OK).body(json);
             }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Map<String, Object> json = new HashMap<>();
+        try {
+            Optional<Proveedor> proveedor = implProveedorService.findById(id);
+            if (proveedor.isPresent()) {
+                implProveedorService.deleteById(id);
+                json.put("msg", "Proveedor eliminado con exito");
+                return ResponseEntity.status(HttpStatus.OK).body(json);
+            }
+            json.put("msg", "Proveedor no encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
