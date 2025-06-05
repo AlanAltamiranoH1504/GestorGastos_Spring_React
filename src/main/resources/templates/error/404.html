@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/app}"
+        lang="en">
+<head>
+    <style>
+        .error-code {
+            font-size: 10rem;
+            font-weight: bold;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>404 Not Found</title>
+</head>
+    <body class="bg-light d-flex justify-content-center align-items-center vh-100 text-center">
+        <section layout:fragment="content">
+            <div class="container">
+                <div class="error-code text-danger">404</div>
+                <h1 class="text-danger fw-semibold">Recurso No Encontrado</h1>
+                <p class="fs-4">No se ha encontrado el recurso solicitado</p>
+                <a href="/" class="btn btn-primary fw-semibold mt-3">Volver al inicio</a>
+            </div>
+        </section>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
