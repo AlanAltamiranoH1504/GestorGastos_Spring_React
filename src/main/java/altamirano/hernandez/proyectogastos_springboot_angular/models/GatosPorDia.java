@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "gastos_por_dia")
@@ -29,4 +30,98 @@ public class GatosPorDia {
     @ManyToOne
     @JoinColumn(name = "proveedor_id")
     private Proveedor proveedor;
+
+    //Constructores
+    public GatosPorDia() {
+    }
+
+    public GatosPorDia(double neto, double iva, double total, Date fecha, String descripcion, Proveedor proveedor) {
+        this.neto = neto;
+        this.iva = iva;
+        this.total = total;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.proveedor = proveedor;
+    }
+
+    public GatosPorDia(Long id, double neto, double iva, double total, Date fecha, String descripcion, Proveedor proveedor) {
+        this.id = id;
+        this.neto = neto;
+        this.iva = iva;
+        this.total = total;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.proveedor = proveedor;
+    }
+
+    // G y S
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getNeto() {
+        return neto;
+    }
+
+    public void setNeto(double neto) {
+        this.neto = neto;
+    }
+
+    public double getIva() {
+        return iva;
+    }
+
+    public void setIva(double iva) {
+        this.iva = iva;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    // E y H
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GatosPorDia that = (GatosPorDia) o;
+        return Double.compare(neto, that.neto) == 0 && Double.compare(iva, that.iva) == 0 && Double.compare(total, that.total) == 0 && Objects.equals(id, that.id) && Objects.equals(fecha, that.fecha) && Objects.equals(descripcion, that.descripcion) && Objects.equals(proveedor, that.proveedor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, neto, iva, total, fecha, descripcion, proveedor);
+    }
 }
