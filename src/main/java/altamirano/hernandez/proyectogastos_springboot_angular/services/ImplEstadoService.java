@@ -35,6 +35,16 @@ public class ImplEstadoService implements IEstadoService {
     }
 
     @Override
+    public List<Estado> findByIdIn(List<Long> ids) {
+        try {
+            List<Estado> estadosFiltrados = iEstadoRepository.findByIdIn(ids);
+            return estadosFiltrados;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void save(Estado estado) {
         try {
             iEstadoRepository.save(estado);
