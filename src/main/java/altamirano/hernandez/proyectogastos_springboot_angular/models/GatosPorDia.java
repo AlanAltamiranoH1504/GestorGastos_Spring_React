@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -14,14 +14,19 @@ public class GatosPorDia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
     @Positive(message = "El neto debe ser mayor a 0")
     private double neto;
+
     @Positive(message = "El IVA debe ser mayor a 0")
     private double iva;
+
     @Positive(message = "El total debe ser mayor a 0")
     private double total;
-    private Date fecha;
+
+    private LocalDate fecha;
+
     @NotBlank(message = "La descripcion es obligatoria")
     @Size(min = 5, max = 300, message = "La longitud de la descripcion debe ser entre 3 y 300 caracteres")
     private String descripcion;
@@ -35,7 +40,7 @@ public class GatosPorDia {
     public GatosPorDia() {
     }
 
-    public GatosPorDia(double neto, double iva, double total, Date fecha, String descripcion, Proveedor proveedor) {
+    public GatosPorDia(double neto, double iva, double total, LocalDate fecha, String descripcion, Proveedor proveedor) {
         this.neto = neto;
         this.iva = iva;
         this.total = total;
@@ -44,7 +49,7 @@ public class GatosPorDia {
         this.proveedor = proveedor;
     }
 
-    public GatosPorDia(Long id, double neto, double iva, double total, Date fecha, String descripcion, Proveedor proveedor) {
+    public GatosPorDia(int id, double neto, double iva, double total, LocalDate fecha, String descripcion, Proveedor proveedor) {
         this.id = id;
         this.neto = neto;
         this.iva = iva;
@@ -55,11 +60,11 @@ public class GatosPorDia {
     }
 
     // G y S
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -87,11 +92,11 @@ public class GatosPorDia {
         this.total = total;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IGastosPorDiaService implements altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IGastosPorDiaService {
@@ -25,9 +26,19 @@ public class IGastosPorDiaService implements altamirano.hernandez.proyectogastos
     }
 
     @Override
-    public GatosPorDia findById(Long id) {
+    public List<GatosPorDia> findByMesActual(int mes, int año) {
         try {
-            GatosPorDia gastosPorDia = iGastosPorDiaRepository.findById(id).get();
+            List<GatosPorDia> gastos = iGastosPorDiaRepository.findAllByMesActual(mes, año);
+            return gastos;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<GatosPorDia> findById(int id) {
+        try {
+            Optional<GatosPorDia> gastosPorDia = iGastosPorDiaRepository.findById(id);
             return gastosPorDia;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -44,7 +55,7 @@ public class IGastosPorDiaService implements altamirano.hernandez.proyectogastos
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(int id) {
         try {
             iGastosPorDiaRepository.deleteById(id);
         } catch (Exception e) {
