@@ -31,7 +31,7 @@ public class ProveedorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
+    public ResponseEntity<?> findById(@PathVariable int id) {
         Map<String, Object> json = new HashMap<>();
         try {
             Optional<Proveedor> proveedor = implProveedorService.findById(id);
@@ -66,7 +66,7 @@ public class ProveedorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Proveedor proveedor, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@PathVariable int id, @Valid @RequestBody Proveedor proveedor, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();
         try {
             if (bindingResult.hasErrors()) {
@@ -92,7 +92,7 @@ public class ProveedorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable int id) {
         Map<String, Object> json = new HashMap<>();
         try {
             Optional<Proveedor> proveedor = implProveedorService.findById(id);

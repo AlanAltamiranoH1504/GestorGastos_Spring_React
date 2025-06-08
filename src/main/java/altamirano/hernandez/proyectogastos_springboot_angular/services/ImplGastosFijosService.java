@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ImplGastosFijosService implements IGastosFijosService {
@@ -25,11 +26,34 @@ public class ImplGastosFijosService implements IGastosFijosService {
     }
 
     @Override
-    public GastosFijos findById(Long id) {
+    public Optional<GastosFijos> findById(int id) {
         try {
-            GastosFijos gastosFijos = iGastosFijosRepository.findById(id).get();
-            return gastosFijos;
+            Optional<GastosFijos> gastoFijo = iGastosFijosRepository.findById(id);
+            if (gastoFijo.isPresent()) {
+                return gastoFijo;
+            }
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<GastosFijos> findByMesActual(int mes, int año) {
+        try {
+            List<GastosFijos> gastosFijosPorMesActual = iGastosFijosRepository.findAllByMesActual(mes, año);
+            return gastosFijosPorMesActual;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<GastosFijos> findByMesDado(int mes, int año) {
+        try {
+            List<GastosFijos> gastosFijosPorMesDado = iGastosFijosRepository.findAllByMesDado(mes, año);
+            return gastosFijosPorMesDado;
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
@@ -44,7 +68,7 @@ public class ImplGastosFijosService implements IGastosFijosService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(int id) {
         try {
             iGastosFijosRepository.deleteById(id);
         } catch (Exception e) {

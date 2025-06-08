@@ -26,7 +26,7 @@ public class ImplProveedorService implements IProveedorService {
     }
 
     @Override
-    public Optional<Proveedor> findById(Long id) {
+    public Optional<Proveedor> findById(int id) {
         try {
             Optional<Proveedor> proveedor = iProveedorRepository.findById(id);
             if (proveedor.isPresent()) {
@@ -49,7 +49,7 @@ public class ImplProveedorService implements IProveedorService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(int id) {
         try {
             iProveedorRepository.deleteById(id);
         } catch (Exception e) {

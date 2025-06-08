@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class GastosFijos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank(message = "El nombre del gasto es obligatorio")
     @Size(min = 3, max = 200, message = "La longitud del nombre debe ser entre 3 y 200 caracteres")
@@ -21,7 +22,7 @@ public class GastosFijos {
 
     @Positive(message = "El monto debe ser mayor a 0")
     private double monto;
-    private Date fecha;
+    private LocalDate fecha;
 
     //Varios gastos fijos para un estado
     @ManyToOne
@@ -38,7 +39,7 @@ public class GastosFijos {
 
     }
 
-    public GastosFijos(String nombre, double monto, Date fecha, Estado estado, Proveedor proveedor) {
+    public GastosFijos(String nombre, double monto, LocalDate fecha, Estado estado, Proveedor proveedor) {
         this.nombre = nombre;
         this.monto = monto;
         this.fecha = fecha;
@@ -46,7 +47,7 @@ public class GastosFijos {
         this.proveedor = proveedor;
     }
 
-    public GastosFijos(Long id, String nombre, double monto, Date fecha, Estado estado, Proveedor proveedor) {
+    public GastosFijos(int id, String nombre, double monto, LocalDate fecha, Estado estado, Proveedor proveedor) {
         this.id = id;
         this.nombre = nombre;
         this.monto = monto;
@@ -56,11 +57,11 @@ public class GastosFijos {
     }
 
     // G y S
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,11 +81,11 @@ public class GastosFijos {
         this.monto = monto;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

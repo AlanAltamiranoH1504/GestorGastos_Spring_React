@@ -12,7 +12,7 @@ public class Proveedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @NotBlank(message = "El nombre del proveedor es obligatorio")
     @Size(min = 3, max = 100, message = "La longitud del nombre debe ser entre 3 y 100 caracteres")
     private String nombre;
@@ -24,17 +24,17 @@ public class Proveedor {
     public Proveedor(String nombre) {
         this.nombre = nombre;
     }
-    public Proveedor(Long id, String nombre) {
+    public Proveedor(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
     // G y S
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
