@@ -42,6 +42,14 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(String nombre, String email, String password, Perfil perfil, Estado estado) {
+        this.nombre = nombre;
+        this.email = email;
+        this.password = password;
+        this.perfil = perfil;
+        this.estado = estado;
+    }
+
     public Usuario(String nombre, String email, String password, String token, Date fecha) {
         this.nombre = nombre;
         this.email = email;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ImplUsuarioService implements IUsuarioService {
@@ -30,6 +31,26 @@ public class ImplUsuarioService implements IUsuarioService {
             Usuario usuario = usuarioRepository.findById(id).get();
             return usuario;
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        try {
+            Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+            return usuario;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Usuario> findByEmailAndEstadoId(String email, int estadoId) {
+        try {
+            Optional<Usuario> usuario = usuarioRepository.findByEmailAndEstadoId(email, estadoId);
+            return usuario;
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
