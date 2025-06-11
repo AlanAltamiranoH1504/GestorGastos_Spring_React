@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -51,9 +50,7 @@ public class UsuarioController {
 
                 iUsuarioService.save(usuario);
                 json.put("mensaje", "Usuario guardado correctamente");
-
                 return ResponseEntity.status(HttpStatus.CREATED).body(json);
-
             } catch (NoSuchElementException e) {
                 json.put("error", "Perfil o Estado por defecto no encontrado");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
