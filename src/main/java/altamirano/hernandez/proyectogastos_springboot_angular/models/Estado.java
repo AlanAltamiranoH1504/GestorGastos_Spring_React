@@ -12,7 +12,7 @@ public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @NotBlank(message = "El nombre del estado es obligatorio")
     @Size(min = 2, max = 100, message = "La longitud del nombre debe ser entre 2 y 100 caracteres")
     private String nombre;
@@ -24,17 +24,17 @@ public class Estado {
     public Estado(String nombre) {
         this.nombre = nombre;
     }
-    public Estado(Long id, String nombre) {
+    public Estado(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
     //G y S
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

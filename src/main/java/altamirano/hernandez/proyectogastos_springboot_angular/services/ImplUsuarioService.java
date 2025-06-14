@@ -1,5 +1,6 @@
 package altamirano.hernandez.proyectogastos_springboot_angular.services;
 
+import altamirano.hernandez.proyectogastos_springboot_angular.models.Estado;
 import altamirano.hernandez.proyectogastos_springboot_angular.models.Usuario;
 import altamirano.hernandez.proyectogastos_springboot_angular.repositories.IUsuarioRepository;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IUsuarioService;
@@ -46,9 +47,9 @@ public class ImplUsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Optional<Usuario> findByEmailAndEstadoId(String email, int estadoId) {
+    public Optional<Usuario> findByEmailAndEstadoId(String email, Estado estado) {
         try {
-            Optional<Usuario> usuario = usuarioRepository.findByEmailAndEstadoId(email, estadoId);
+            Optional<Usuario> usuario = usuarioRepository.findByEmailAndEstadoId(email, estado.getId());
             return usuario;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

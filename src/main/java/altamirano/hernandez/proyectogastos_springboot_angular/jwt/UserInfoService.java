@@ -1,10 +1,10 @@
 package altamirano.hernandez.proyectogastos_springboot_angular.jwt;
 
+import altamirano.hernandez.proyectogastos_springboot_angular.models.Estado;
 import altamirano.hernandez.proyectogastos_springboot_angular.models.Usuario;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IEstadoService;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,9 +21,9 @@ public class UserInfoService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Estado estado = iEstadoService.findById(1L);
+        Optional<Usuario> usuario = iUsuarioService.findByEmailAndEstadoId(email, estado);
 
-        Optional<Usuario> usuario = iUsuarioService.findByEmail(email);
-
-        return usuario.map(UserInfoDetails::new).orElse(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        return usuario.map(UserInfoDetails::new).orElseThrow(() -> new UsernameNotFoundException("Usuario con email " + email + " no existente."));
     }
 }
