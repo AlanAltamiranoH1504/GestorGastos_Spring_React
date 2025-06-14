@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/usuarios/**", "/home", "/login/**", "/logout").permitAll()
                 )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/gastos-fijos/**", "/gastos-por-dia/**").authenticated()
+                        .requestMatchers("/gastos-fijos/**", "/gastos-por-dia/**", "/usuarios/**").authenticated()
                 )
                 .sessionManagement(managment -> managment
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
