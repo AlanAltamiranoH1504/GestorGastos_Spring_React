@@ -12,10 +12,10 @@ import java.util.Objects;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(min = 3, max = 100, message = "El nombre debe tener una longitud de entre 3 y 100 caracteres")
+    @Size(min = 3, max = 100, message = "El nombre debe tener una intitud de entre 3 y 100 caracteres")
     private String nombre;
 
     @NotBlank(message = "El email es obligatorio")
@@ -68,7 +68,7 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public Usuario(Long id, String nombre, String email, String password, String token, Date fecha, Perfil perfil, Estado estado) {
+    public Usuario(int id, String nombre, String email, String password, String token, Date fecha, Perfil perfil, Estado estado) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
@@ -80,11 +80,11 @@ public class Usuario {
     }
 
     // Get y Set
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

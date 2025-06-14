@@ -27,7 +27,7 @@ public class ImplUsuarioService implements IUsuarioService {
     }
 
     @Override
-    public Usuario findById(Long id) {
+    public Usuario findById(int id) {
         try {
             Usuario usuario = usuarioRepository.findById(id).get();
             return usuario;
@@ -66,7 +66,7 @@ public class ImplUsuarioService implements IUsuarioService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(int id) {
         try {
             usuarioRepository.deleteById(id);
         } catch (Exception e) {

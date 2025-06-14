@@ -64,7 +64,7 @@ public class JWTService {
                 .parserBuilder()
                 .setSigningKey(getSignKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
@@ -76,6 +76,6 @@ public class JWTService {
     //Valida el token
     public Boolean validateToken(String token, Usuario usuario) {
         final String email = extractEmail(token);
-        return (usuario.equals(usuario.getEmail()) && !isTokenExpired(token));
+        return (email.equals(usuario.getEmail()) && !isTokenExpired(token));
     }
 }

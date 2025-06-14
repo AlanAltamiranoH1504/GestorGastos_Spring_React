@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface IUsuarioRepository extends CrudRepository<Usuario, Long> {
+public interface IUsuarioRepository extends CrudRepository<Usuario, Integer> {
 
     @Query("SELECT u FROM Usuario u WHERE u.email =:email")
     Optional<Usuario> findByEmail(@Param("email") String email);
