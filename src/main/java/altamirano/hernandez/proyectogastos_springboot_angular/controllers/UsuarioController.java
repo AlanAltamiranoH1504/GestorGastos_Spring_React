@@ -68,6 +68,13 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
         } else {
             try {
+                //Verificacion de email no registrado antes
+                Optional<Usuario> usuarioExistente = iUsuarioService.findByEmail(usuario.getEmail());
+                if (usuarioExistente.isPresent()) {
+                    json.put("error", "Email ya regitrado con anterioridad");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
+                }
+
                 Perfil perfilDefault = iPerfilService.findById(1L);
                 Estado estadoDefault = iEstadoService.findById(1L);
 
