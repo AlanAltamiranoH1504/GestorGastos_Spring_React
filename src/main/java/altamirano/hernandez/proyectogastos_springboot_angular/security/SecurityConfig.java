@@ -62,7 +62,8 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/usuarios/**", "/home", "/login/**", "/logout").permitAll()
+//                        .requestMatchers("/usuarios/**", "/home", "/login/**", "/logout").permitAll()
+                        .requestMatchers("/home", "/login/**", "/logout", "/imagenes/**").permitAll()
                 )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/gastos-fijos/**", "/gastos-por-dia/**", "/usuarios/**").authenticated()
@@ -83,7 +84,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5174"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5174", "http://localhost:5173"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
 
