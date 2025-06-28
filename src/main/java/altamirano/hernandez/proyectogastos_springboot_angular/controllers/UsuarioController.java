@@ -62,7 +62,7 @@ public class UsuarioController {
         try {
             Optional<Usuario> usuario = iUsuarioService.findByEmail(email);
             if (usuario.isPresent()) {
-                UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get().getId(), usuario.get().getNombre(), usuario.get().getApellidos(), usuario.get().getEmail(), usuario.get().getPassword(), Math.toIntExact(usuario.get().getPerfil().getId()), usuario.get().getEstado().getId());
+                UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get().getId(), usuario.get().getNombre(), usuario.get().getApellidos(), usuario.get().getEmail(), usuario.get().getPassword(), Math.toIntExact(usuario.get().getPerfil().getId()), usuario.get().getEstado().getId(), usuario.get().getImagenURL());
                 return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
             } else {
                 json.put("error", "Usuario con el email " + email + " no encontrado");

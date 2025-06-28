@@ -1,7 +1,10 @@
 package altamirano.hernandez.proyectogastos_springboot_angular.controllers;
 
+import altamirano.hernandez.proyectogastos_springboot_angular.models.Usuario;
 import altamirano.hernandez.proyectogastos_springboot_angular.models.dtos.ErrorResponse;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.CloudinaryService;
+import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IUsuarioService;
+import altamirano.hernandez.proyectogastos_springboot_angular.utils.UsuarioAutenticadoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,10 @@ import java.util.*;
 public class ImagenesController {
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private UsuarioAutenticadoHelper usuarioAutenticadoHelper;
+    @Autowired
+    private IUsuarioService iUsuarioService;
 
     @PostMapping("")
     public ResponseEntity<?> uploadImagen(@RequestParam MultipartFile imagen) {
@@ -38,7 +45,13 @@ public class ImagenesController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
             }
 
-            Map result = cloudinaryService.uploadImagen(imagen); //El result estan las variables que no interesan
+            //Subida de imagen y actualizacion de atributo imagen
+            Usuario userInSession = usuarioAutenticadoHelper.obtenerUsuarioAutenticado();
+            Map result = cloudinaryService.uploadImagen(imagen);
+            String urlImagen = result.get("url").toString();
+            userInSession.setImagenURL(urlImagen);
+            iUsuarioService.save(userInSession);
+
             json.put("msg", "Imagen subida correctamente");
             return ResponseEntity.status(HttpStatus.OK).body(json);
         } catch (IOException e) {

@@ -15,12 +15,13 @@ public class UsuarioDTO {
     @NotBlank(message = "El email es obligatorio")
     private String email;
     private String password;
+    private String imagenURL;
     @Positive(message = "El perfil es obligatorio")
     private int perfilId;
     @Positive(message = "El estado es obligatorio")
     private int estadoId;
 
-    public UsuarioDTO(int id, String nombre, String apellidos, String email, String password, int perfilId, int estadoId) {
+    public UsuarioDTO(int id, String nombre, String apellidos, String email, String password, int perfilId, int estadoId, String imagenURL) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -28,6 +29,7 @@ public class UsuarioDTO {
         this.password = password;
         this.perfilId = perfilId;
         this.estadoId = estadoId;
+        this.imagenURL = imagenURL;
     }
 
     public int getId() {
@@ -84,6 +86,14 @@ public class UsuarioDTO {
 
     public void setEstadoId(int estadoId) {
         this.estadoId = estadoId;
+    }
+
+    public String getImagenURL() {
+        return imagenURL;
+    }
+
+    public void setImagenURL(String imagenURL) {
+        this.imagenURL = imagenURL;
     }
 
     @Override

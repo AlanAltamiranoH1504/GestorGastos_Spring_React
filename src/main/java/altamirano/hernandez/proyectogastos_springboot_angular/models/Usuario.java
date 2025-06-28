@@ -23,7 +23,7 @@ public class Usuario {
     private String apellidos;
 
     @NotBlank(message = "El email es obligatorio")
-    @Size(min = 3, message = "El email debe tener una longitud minima de3 caracteres")
+    @Size(min = 3, message = "El email debe tener una longitud minima de 3 caracteres")
     private String email;
 
     @NotBlank(message = "El password es obligatorio")
@@ -31,6 +31,7 @@ public class Usuario {
     private String password;
     private String token;
     private Date fecha;
+    private String imagenURL;
 
     //Varios Usuarios para un Perfil
     @ManyToOne
@@ -46,42 +47,46 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellidos, String email, String password, Perfil perfil, Estado estado) {
+    public Usuario(String nombre, String apellidos, String email, String password, String imagenURL, Perfil perfil, Estado estado) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
         this.password = password;
+        this.imagenURL = imagenURL;
         this.perfil = perfil;
         this.estado = estado;
     }
 
-    public Usuario(String nombre, String apellidos, String email, String password, String token, Date fecha) {
+    public Usuario(String nombre, String apellidos, String email, String password, String imagenURL, String token, Date fecha) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.password = password;
+        this.token = token;
+        this.imagenURL = imagenURL;
+        this.fecha = fecha;
+    }
+
+    public Usuario(String nombre, String apellidos, String email, String password, String token, String imagenURL, Date fecha, Perfil perfil, Estado estado) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
         this.password = password;
         this.token = token;
         this.fecha = fecha;
-    }
-
-    public Usuario(String nombre, String apellidos, String email, String password, String token, Date fecha, Perfil perfil, Estado estado) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.email = email;
-        this.password = password;
-        this.token = token;
-        this.fecha = fecha;
+        this.imagenURL = imagenURL;
         this.perfil = perfil;
         this.estado = estado;
     }
 
-    public Usuario(int id, String nombre, String apellidos, String email, String password, String token, Date fecha, Perfil perfil, Estado estado) {
+    public Usuario(int id, String nombre, String apellidos, String email, String password, String token, String imagenURL, Date fecha, Perfil perfil, Estado estado) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
         this.password = password;
         this.token = token;
+        this.imagenURL = imagenURL;
         this.fecha = fecha;
         this.perfil = perfil;
         this.estado = estado;
@@ -160,16 +165,25 @@ public class Usuario {
         this.apellidos = apellidos;
     }
 
+    public String getImagenURL() {
+        return imagenURL;
+    }
+
+    public void setImagenURL(String imagenURL) {
+        this.imagenURL = imagenURL;
+    }
+
     // E y H
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return id == usuario.id && Objects.equals(nombre, usuario.nombre) && Objects.equals(apellidos, usuario.apellidos) && Objects.equals(email, usuario.email) && Objects.equals(password, usuario.password) && Objects.equals(token, usuario.token) && Objects.equals(fecha, usuario.fecha) && Objects.equals(perfil, usuario.perfil) && Objects.equals(estado, usuario.estado);
+        return id == usuario.id && Objects.equals(nombre, usuario.nombre) && Objects.equals(apellidos, usuario.apellidos) && Objects.equals(email, usuario.email) && Objects.equals(password, usuario.password) && Objects.equals(token, usuario.token) && Objects.equals(fecha, usuario.fecha) && Objects.equals(imagenURL, usuario.imagenURL) && Objects.equals(perfil, usuario.perfil) && Objects.equals(estado, usuario.estado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellidos, email, password, token, fecha, perfil, estado);
+        return Objects.hash(id, nombre, apellidos, email, password, token, fecha, imagenURL, perfil, estado);
     }
 }
