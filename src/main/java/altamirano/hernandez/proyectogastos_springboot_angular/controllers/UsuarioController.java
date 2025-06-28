@@ -8,7 +8,6 @@ import altamirano.hernandez.proyectogastos_springboot_angular.models.dtos.Usuari
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IEstadoService;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IPerfilService;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IUsuarioService;
-import groovyjarjarpicocli.CommandLine;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,6 +56,24 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> findByEmail(@PathVariable String email) {
+        Map<String, Object> json = new HashMap<>();
+        try {
+            Optional<Usuario> usuario = iUsuarioService.findByEmail(email);
+            if (usuario.isPresent()) {
+                UsuarioDTO usuarioDTO = new UsuarioDTO(usuario.get().getId(), usuario.get().getNombre(), usuario.get().getApellidos(), usuario.get().getEmail(), usuario.get().getPassword(), Math.toIntExact(usuario.get().getPerfil().getId()), usuario.get().getEstado().getId());
+                return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
+            } else {
+                json.put("error", "Usuario con el email " + email + " no encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+            }
+        } catch (Exception e) {
+            ErrorResponse error = new ErrorResponse("Usuario con email no encontrado", e.getClass().getName(), e.getMessage(), LocalDate.now());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> saveUsuario(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();
@@ -96,7 +113,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid UsuarioDTO usuarioDTO, @PathVariable int id, BindingResult bindingResult) {
+    public ResponseEntity<?> update(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable int id, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();
         if (bindingResult.hasErrors()) {
             Map<String, Object> errores = new HashMap<>();
@@ -115,6 +132,7 @@ public class UsuarioController {
                 Estado estadoNuevo = iEstadoService.findById((long) usuarioDTO.getEstadoId());
 
                 usuario.setNombre(usuarioDTO.getNombre());
+                usuario.setApellidos(usuarioDTO.getApellidos());
                 usuario.setEmail(usuarioDTO.getEmail());
                 usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
                 usuario.setFecha(new Date(System.currentTimeMillis()));

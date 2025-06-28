@@ -25,7 +25,6 @@ public class ImagenesController {
     public ResponseEntity<?> uploadImagen(@RequestParam MultipartFile imagen) {
         try {
             Map<String, Object> json = new HashMap<>();
-
             //Validaciones con el archivo
             if (imagen.isEmpty()) {
                 json.put("error", "Imagen no cargada de manera correcta.");
@@ -33,13 +32,13 @@ public class ImagenesController {
             }
             //Validacion de extensiones
             String extensionArchivo = imagen.getContentType();
-            List<String> extensionesValidas = Arrays.asList("/image/png", "/image/jpeg", "/image/jpg");
+            List<String> extensionesValidas = Arrays.asList("image/png", "image/jpeg", "image/jpg");
             if (!extensionesValidas.contains(extensionArchivo)) {
                 json.put("error", "Extension de archivo no valida");
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
             }
 
-            Map result = cloudinaryService.uploadImagen(imagen);
+            Map result = cloudinaryService.uploadImagen(imagen); //El result estan las variables que no interesan
             json.put("msg", "Imagen subida correctamente");
             return ResponseEntity.status(HttpStatus.OK).body(json);
         } catch (IOException e) {
