@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface IGastosPorDiaService {
     public abstract List<GatosPorDia> findAll();
-    public abstract List<GatosPorDia> findByMesActual(int mes, int año);
+    public abstract List<GatosPorDia> findByMesActual(int mes, int año, int usuario_id);
     public abstract Optional<GatosPorDia> findById(int id);
     public abstract void save(GatosPorDia gatosPorDia);
     public abstract void deleteById(int id);

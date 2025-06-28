@@ -2,9 +2,11 @@ package altamirano.hernandez.proyectogastos_springboot_angular.controllers;
 
 import altamirano.hernandez.proyectogastos_springboot_angular.models.GatosPorDia;
 import altamirano.hernandez.proyectogastos_springboot_angular.models.Proveedor;
+import altamirano.hernandez.proyectogastos_springboot_angular.models.Usuario;
 import altamirano.hernandez.proyectogastos_springboot_angular.models.dtos.GastoPorDiaDTO;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IGastosPorDiaService;
 import altamirano.hernandez.proyectogastos_springboot_angular.services.interfaces.IProveedorService;
+import altamirano.hernandez.proyectogastos_springboot_angular.utils.UsuarioAutenticadoHelper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,13 +28,17 @@ public class GastoPorDiaController {
     private IProveedorService iProveedorService;
     @Autowired
     private IGastosPorDiaService iGastosPorDiaService;
+    @Autowired
+    private UsuarioAutenticadoHelper usuarioAutenticadoHelper;
 
     @GetMapping("")
     public ResponseEntity<?> list() {
         Map<String, Object> json = new HashMap<>();
         try {
             LocalDate fecha = LocalDate.now();
-            List<GatosPorDia> gastosPorDia = iGastosPorDiaService.findByMesActual(fecha.getMonthValue(), fecha.getYear());
+            Usuario usuarioInSesion = usuarioAutenticadoHelper.obtenerUsuarioAutenticado();
+            List<GatosPorDia> gastosPorDia = iGastosPorDiaService.findByMesActual(fecha.getMonthValue(), fecha.getYear(), usuarioInSesion.getId());
+            json.put("gastosPorDia", gastosPorDia);
             return ResponseEntity.status(HttpStatus.OK).body(gastosPorDia);
         } catch (RuntimeException e) {
             json.put("msg", e.getMessage());
@@ -56,9 +62,9 @@ public class GastoPorDiaController {
                     json.put("msg", "Proveedor no encontrado");
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
                 } else {
-                    double total = gastoPorDiaDto.getNeto() * (1 + (gastoPorDiaDto.getIva() / 100));
+                    Usuario userInSesion = usuarioAutenticadoHelper.obtenerUsuarioAutenticado();
                     LocalDate fecha = LocalDate.now();
-                    GatosPorDia gastoPorDia = new GatosPorDia(gastoPorDiaDto.getNeto(), gastoPorDiaDto.getIva(), total, fecha, gastoPorDiaDto.getDescripcion(), proveedor.get());
+                    GatosPorDia gastoPorDia = new GatosPorDia(gastoPorDiaDto.getNeto(), gastoPorDiaDto.getIva(), gastoPorDiaDto.getTotal(), fecha, gastoPorDiaDto.getDescripcion(), proveedor.get(), userInSesion);
                     iGastosPorDiaService.save(gastoPorDia);
                     json.put("msg", "Gasto por dia guardada con exito");
                     return ResponseEntity.status(HttpStatus.CREATED).body(json);

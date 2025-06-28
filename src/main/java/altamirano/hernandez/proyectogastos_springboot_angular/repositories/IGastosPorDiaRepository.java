@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface IGastosPorDiaRepository extends CrudRepository<GatosPorDia, Integer> {
 
-    @Query("SELECT g FROM GatosPorDia g WHERE MONTH(g.fecha)=:mes AND YEAR(g.fecha)=:año")
-    List<GatosPorDia> findAllByMesActual(@Param("mes") int mes, @Param("año") int año);
+    @Query("SELECT g FROM GatosPorDia g WHERE MONTH(g.fecha)=:mes AND YEAR(g.fecha)=:año AND g.usuario.id =:usuario_id")
+    List<GatosPorDia> findAllByMesActual(@Param("mes") int mes, @Param("año") int año, @Param("usuario_id") int usuario_id);
 }

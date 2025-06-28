@@ -23,7 +23,9 @@ public class ProveedorController {
     @GetMapping("")
     public ResponseEntity<?> findAll() {
         try {
+            Map<String, Object> json = new HashMap<>();
             List<Proveedor> proveedores = implProveedorService.findAll();
+            json.put("proveedores", proveedores);
             return ResponseEntity.status(HttpStatus.OK).body(proveedores);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

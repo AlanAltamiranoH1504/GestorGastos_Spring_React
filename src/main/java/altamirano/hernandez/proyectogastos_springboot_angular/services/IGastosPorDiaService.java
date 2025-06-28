@@ -26,9 +26,9 @@ public class IGastosPorDiaService implements altamirano.hernandez.proyectogastos
     }
 
     @Override
-    public List<GatosPorDia> findByMesActual(int mes, int año) {
+    public List<GatosPorDia> findByMesActual(int mes, int año, int usuario_id) {
         try {
-            List<GatosPorDia> gastos = iGastosPorDiaRepository.findAllByMesActual(mes, año);
+            List<GatosPorDia> gastos = iGastosPorDiaRepository.findAllByMesActual(mes, año, usuario_id);
             return gastos;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,6 +34,10 @@ public class Usuario {
     private String token;
     private Date fecha;
     private String imagenURL;
+
+    //Un usuario para varios Gastos por Dia
+    @OneToMany(mappedBy = "usuario", orphanRemoval = true)
+    List<GatosPorDia> gastosPorDia = new ArrayList<>();
 
     //Varios Usuarios para un Perfil
     @ManyToOne
@@ -173,8 +179,15 @@ public class Usuario {
         this.imagenURL = imagenURL;
     }
 
-    // E y H
+    public List<GatosPorDia> getGastosPorDia() {
+        return gastosPorDia;
+    }
 
+    public void setGastosPorDia(List<GatosPorDia> gastosPorDia) {
+        this.gastosPorDia = gastosPorDia;
+    }
+
+    // E y H
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

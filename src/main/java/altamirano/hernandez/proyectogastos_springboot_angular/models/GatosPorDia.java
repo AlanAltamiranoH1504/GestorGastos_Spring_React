@@ -1,5 +1,6 @@
 package altamirano.hernandez.proyectogastos_springboot_angular.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -36,20 +37,27 @@ public class GatosPorDia {
     @JoinColumn(name = "proveedor_id")
     private Proveedor proveedor;
 
+    //Varios gastos por dia para un Usuario
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     //Constructores
     public GatosPorDia() {
     }
 
-    public GatosPorDia(double neto, double iva, double total, LocalDate fecha, String descripcion, Proveedor proveedor) {
+    public GatosPorDia(double neto, double iva, double total, LocalDate fecha, String descripcion, Proveedor proveedor, Usuario usuario) {
         this.neto = neto;
         this.iva = iva;
         this.total = total;
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.proveedor = proveedor;
+        this.usuario = usuario;
     }
 
-    public GatosPorDia(int id, double neto, double iva, double total, LocalDate fecha, String descripcion, Proveedor proveedor) {
+    public GatosPorDia(int id, double neto, double iva, double total, LocalDate fecha, String descripcion, Proveedor proveedor, Usuario usuario) {
         this.id = id;
         this.neto = neto;
         this.iva = iva;
@@ -57,6 +65,7 @@ public class GatosPorDia {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.proveedor = proveedor;
+        this.usuario = usuario;
     }
 
     // G y S
@@ -114,6 +123,14 @@ public class GatosPorDia {
 
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     // E y H
