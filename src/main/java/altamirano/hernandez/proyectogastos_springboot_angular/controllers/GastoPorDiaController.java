@@ -46,6 +46,22 @@ public class GastoPorDiaController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id){
+        Map<String, Object> json = new HashMap<>();
+        try {
+            Optional<GatosPorDia> gastoPorDiaFound = iGastosPorDiaService.findById(id);
+            if (!gastoPorDiaFound.isPresent()) {
+                json.put("error", "Gasto por dia con id: " + id + " no encontrao.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+            }
+            GatosPorDia gastoPorDia = gastoPorDiaFound.get();
+            return ResponseEntity.status(HttpStatus.OK).body(gastoPorDia);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> save(@Valid @RequestBody GastoPorDiaDTO gastoPorDiaDto, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();
